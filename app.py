@@ -238,22 +238,6 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# 7. Regimen Details Expander
-with st.expander("รายละเอียดส่วนประกอบสูตรยา"):
-    if "6BPaLM" in recommended_formula:
-        st.markdown("**6BPaLM**: Bedaquiline + Pretomanid + Linezolid + Moxifloxacin (6 เดือน)")
-    elif "6BPAL" in recommended_formula:
-        st.markdown("**6BPAL**: Bedaquiline + Pretomanid + Linezolid (6 เดือน)")
-    elif "6BDLLfx" in recommended_formula:
-        st.markdown("**6BDLLfx**: Bedaquiline + Delamanid + Linezolid + Levofloxacin (6 เดือน)")
-    elif "6BDLC" in recommended_formula:
-        st.markdown("**6BDLC**: Bedaquiline + Delamanid + Linezolid + Clofazimine (6 เดือน)")
-    elif "6REZ" in recommended_formula:
-        st.markdown("**6REZ / 6REZLfx**: Rifampicin + Ethambutol + Pyrazinamide ± Levofloxacin")
-    elif "Longer" in recommended_formula:
-        st.markdown("**Longer 18-m regimen**: สูตรยารักษาระยาว (18 เดือนขึ้นไป)")
-    else:
-        st.write("เลือกข้อมูลการดื้อยาเพื่อดูรายละเอียด")
 
 # 8. Reference Dosing & Drug Groups
 st.markdown('<div class="section-title">4. ข้อมูลยาอ้างอิง</div>', unsafe_allow_html=True)
