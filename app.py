@@ -8,11 +8,11 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# 2. Sleek Dark Minimalist Styling (Default Dark Theme Palette)
+# 2. Sleek Dark Minimalist Styling (Bright High-Contrast Text Palette)
 # Dark Base: #0F172A (Deep Slate Navy)
 # Card Base: #1E293B (Dark Container)
 # Accent Teal: #0F766E / #2DD4BF (Primary Highlight)
-# Text Primary: #F8FAFC / Text Muted: #94A3B8
+# Text High-Contrast: #FFFFFF (Pure White) & #E2E8F0 (Bright Light Silver)
 
 st.markdown("""
 <style>
@@ -21,7 +21,7 @@ st.markdown("""
     html, body, [class*="css"] {
         font-family: 'Plus Jakarta Sans', 'Prompt', -apple-system, BlinkMacSystemFont, sans-serif;
         background-color: #0f172a !important;
-        color: #f8fafc !important;
+        color: #ffffff !important;
     }
     
     /* Hide Streamlit Chrome Elements */
@@ -31,6 +31,17 @@ st.markdown("""
     
     .stApp, .stAppViewContainer {
         background-color: #0f172a !important;
+    }
+
+    /* Force all text labels, paragraphs, spans to bright white */
+    p, span, label, div, [class*="stMarkdown"], [class*="stCheckbox"], [class*="stRadio"] label {
+        color: #ffffff !important;
+    }
+    
+    /* Caption text styling - bright light silver */
+    [data-testid="stCaptionContainer"], .stCaption {
+        color: #e2e8f0 !important;
+        font-size: 0.85rem !important;
     }
 
     /* Reduce Top Spacing for Mobile Screen */
@@ -56,7 +67,7 @@ st.markdown("""
     .mobile-header h1 {
         font-size: 1.65rem;
         font-weight: 800;
-        color: #f8fafc;
+        color: #ffffff !important;
         margin: 0;
         letter-spacing: -0.5px;
         display: flex;
@@ -67,8 +78,8 @@ st.markdown("""
 
     .mobile-header p {
         font-size: 0.85rem;
-        color: #2dd4bf;
-        font-weight: 500;
+        color: #2dd4bf !important;
+        font-weight: 600;
         margin-top: 0.15rem;
         margin-bottom: 0;
     }
@@ -80,13 +91,13 @@ st.markdown("""
         border-radius: 12px;
         padding: 0.9rem 1.1rem;
         margin-bottom: 0.8rem;
-        color: #f8fafc;
+        color: #ffffff;
     }
 
     .section-title {
-        font-size: 0.92rem;
-        font-weight: 700;
-        color: #cbd5e1;
+        font-size: 0.95rem;
+        font-weight: 800;
+        color: #ffffff !important;
         text-transform: uppercase;
         letter-spacing: 0.5px;
         margin-bottom: 0.5rem;
@@ -94,31 +105,31 @@ st.markdown("""
 
     .min-badge {
         display: inline-block;
-        padding: 0.35rem 0.8rem;
+        padding: 0.35rem 0.85rem;
         border-radius: 6px;
-        font-weight: 600;
-        font-size: 0.95rem;
+        font-weight: 700;
+        font-size: 0.98rem;
         background-color: #334155;
-        color: #f8fafc;
+        color: #ffffff !important;
         border: 1px solid #475569;
     }
 
     .min-formula-box {
         background-color: #0f766e;
-        color: #ffffff;
+        color: #ffffff !important;
         padding: 0.9rem;
         border-radius: 8px;
-        font-size: 1.35rem;
-        font-weight: 700;
+        font-size: 1.4rem;
+        font-weight: 800;
         text-align: center;
         letter-spacing: 0.5px;
         margin-top: 0.4rem;
-        box-shadow: 0 4px 12px rgba(15, 118, 110, 0.3);
+        box-shadow: 0 4px 12px rgba(15, 118, 110, 0.4);
     }
 
     .min-disclaimer {
-        font-size: 0.78rem;
-        color: #94a3b8;
+        font-size: 0.8rem;
+        color: #e2e8f0 !important;
         border-top: 1px solid #334155;
         padding-top: 0.8rem;
         margin-top: 1.2rem;
@@ -221,9 +232,9 @@ st.markdown('<div class="section-title">3. ผลการวิเคราะ�
 
 st.markdown(f"""
 <div class="min-card">
-    <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 0.3rem;">รูปแบบการดื้อยา</div>
+    <div style="font-size: 0.82rem; color: #e2e8f0; margin-bottom: 0.3rem; font-weight: 500;">รูปแบบการดื้อยา</div>
     <div class="min-badge">{pattern_text}</div>
-    <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.8rem; margin-bottom: 0.2rem;">สูตรยาที่แนะนำ</div>
+    <div style="font-size: 0.82rem; color: #e2e8f0; margin-top: 0.8rem; margin-bottom: 0.2rem; font-weight: 500;">สูตรยาที่แนะนำ</div>
     <div class="min-formula-box">{recommended_formula}</div>
 </div>
 """, unsafe_allow_html=True)
@@ -241,7 +252,7 @@ with st.expander("รายละเอียดส่วนประกอบ�
     elif "6REZ" in recommended_formula:
         st.markdown("**6REZ / 6REZLfx**: Rifampicin + Ethambutol + Pyrazinamide ± Levofloxacin")
     elif "Longer" in recommended_formula:
-        st.markdown("**Longer 18-m regimen**: สูตรยารักษาระยะยาว (18 เดือนขึ้นไป)")
+        st.markdown("**Longer 18-m regimen**: สูตรยารักษาระยาว (18 เดือนขึ้นไป)")
     else:
         st.write("เลือกข้อมูลการดื้อยาเพื่อดูรายละเอียด")
 
