@@ -189,9 +189,8 @@ def calculate_recommended_formula(H, R, Q, A, kid, pregnant):
 
 # 5. Form Inputs
 with st.container():
-    st.markdown('<div class="section-title">1. ประวัติการดื้อยา</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">1. การดื้อยา</div>', unsafe_allow_html=True)
     with st.container(border=True):
-        st.caption("ผลความไวต่อยา (DST)")
         c1, c2 = st.columns(2)
         with c1:
             h_resist = st.checkbox("Isoniazid (H)", value=False)
