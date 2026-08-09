@@ -1,254 +1,217 @@
 import streamlit as st
 
-# 1. Page Configuration
+# 1. Page Configuration - Centered Mobile App Layout
 st.set_page_config(
     page_title="MDR4T - MDR-TB Guide for Thai",
-    page_icon="🩺",
-    layout="wide",
-    initial_sidebar_state="expanded"
+    page_icon=None,
+    layout="centered",
+    initial_sidebar_state="collapsed"
 )
 
-# 2. Modern Custom Styling (CSS)
+# 2. Minimalist Mobile UI Styling (Strict 3-Color Palette)
+# Color 1: #1E293B (Dark Slate - Text & Primary Headers)
+# Color 2: #0F766E (Teal - Primary Accent & Recommendation Highlight)
+# Color 3: #F8FAFC (Light Neutral - Backgrounds & Card Container Base)
+
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap');
     
     html, body, [class*="css"] {
-        font-family: 'Prompt', 'Inter', sans-serif;
+        font-family: 'Prompt', -apple-system, BlinkMacSystemFont, sans-serif;
+        background-color: #f8fafc;
+        color: #1e293b;
     }
     
-    /* Header Gradient & Hero Section */
-    .hero-container {
-        background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f766e 100%);
-        padding: 1.8rem 2rem;
-        border-radius: 16px;
-        color: white;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
-        margin-bottom: 1.5rem;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+    /* Hide Streamlit Header & Footer elements for clean mobile app look */
+    #MainMenu {visibility: hidden;}
+    header {visibility: hidden;}
+    footer {visibility: hidden;}
+    
+    /* Mobile Outer Shell Container */
+    .stAppViewContainer {
+        background-color: #f8fafc;
+    }
+
+    .main .block-container {
+        max-width: 520px;
+        padding-top: 1rem;
+        padding-bottom: 2rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        margin: 0 auto;
     }
     
-    .hero-title {
-        font-size: 2.2rem;
+    /* Minimal App Header */
+    .mobile-header {
+        text-align: center;
+        padding: 1.2rem 1rem 0.8rem 1rem;
+        background-color: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        margin-bottom: 1rem;
+    }
+    
+    .mobile-header h1 {
+        font-size: 1.6rem;
         font-weight: 700;
+        color: #1e293b;
         margin: 0;
-        background: linear-gradient(90deg, #38bdf8, #2dd4bf);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
+        letter-spacing: -0.5px;
     }
-    
-    .hero-subtitle {
-        font-size: 1.05rem;
-        color: #94a3b8;
-        margin-top: 0.4rem;
+
+    .mobile-header p {
+        font-size: 0.85rem;
+        color: #0f766e;
+        font-weight: 500;
+        margin-top: 0.2rem;
         margin-bottom: 0;
     }
 
-    .badge-year {
-        background: rgba(45, 212, 191, 0.15);
-        color: #2dd4bf;
-        border: 1px solid rgba(45, 212, 191, 0.3);
-        padding: 0.3rem 0.8rem;
-        border-radius: 20px;
-        font-size: 0.85rem;
-        font-weight: 600;
-    }
-
-    /* Result Card Styles */
-    .result-card {
+    /* Minimal Card Containers */
+    .min-card {
         background: #ffffff;
-        border-radius: 14px;
-        padding: 1.5rem;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         border: 1px solid #e2e8f0;
-        margin-bottom: 1.2rem;
+        border-radius: 12px;
+        padding: 1rem 1.2rem;
+        margin-bottom: 0.8rem;
     }
 
     @media (prefers-color-scheme: dark) {
-        .result-card {
+        .mobile-header, .min-card {
             background: #1e293b;
             border-color: #334155;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            color: #f8fafc;
+        }
+        .mobile-header h1 {
+            color: #f8fafc;
+        }
+        .mobile-header p {
+            color: #2dd4bf;
         }
     }
 
-    .pattern-badge {
-        display: inline-block;
-        padding: 0.5rem 1.2rem;
-        border-radius: 30px;
-        font-weight: 700;
-        font-size: 1.15rem;
+    .section-title {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #1e293b;
+        text-transform: uppercase;
         letter-spacing: 0.5px;
-    }
-
-    .badge-hr { background-color: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
-    .badge-rr { background-color: #e0f2fe; color: #075985; border: 1px solid #bae6fd; }
-    .badge-mdr { background-color: #ffedd5; color: #c2410c; border: 1px solid #fed7aa; }
-    .badge-prexdr { background-color: #fce7f3; color: #be185d; border: 1px solid #fbcfe8; }
-    .badge-xdr { background-color: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
-    .badge-none { background-color: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; }
-
-    .formula-box {
-        background: linear-gradient(135deg, #0284c7 0%, #0d9488 100%);
-        color: white;
-        padding: 1.25rem 1.5rem;
-        border-radius: 12px;
-        font-size: 1.75rem;
-        font-weight: 700;
-        text-align: center;
-        letter-spacing: 1px;
-        box-shadow: 0 6px 15px rgba(13, 148, 136, 0.25);
-        margin: 0.8rem 0;
-    }
-
-    .drug-chip {
-        display: inline-block;
-        background: #0f766e;
-        color: #ffffff;
-        padding: 0.2rem 0.6rem;
-        border-radius: 6px;
-        font-size: 0.85rem;
-        font-weight: 700;
-        margin-right: 0.4rem;
-    }
-
-    .summary-box {
-        background: #f8fafc;
-        border: 1px dashed #94a3b8;
-        border-radius: 8px;
-        padding: 1rem;
-        font-family: monospace;
-        font-size: 0.88rem;
-        color: #334155;
+        margin-bottom: 0.6rem;
     }
 
     @media (prefers-color-scheme: dark) {
-        .summary-box {
-            background: #0f172a;
-            border-color: #475569;
+        .section-title {
             color: #cbd5e1;
         }
     }
 
-    .disclaimer-box {
-        background-color: rgba(245, 158, 11, 0.1);
-        border-left: 4px solid #f59e0b;
-        padding: 1rem 1.2rem;
-        border-radius: 8px;
-        color: #b45309;
-        font-size: 0.88rem;
-        margin-top: 2rem;
+    /* Minimal Pattern Badge */
+    .min-badge {
+        display: inline-block;
+        padding: 0.4rem 0.8rem;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        background-color: #f1f5f9;
+        color: #1e293b;
+        border: 1px solid #cbd5e1;
     }
 
-    @media (prefers-color-scheme: dark) {
-        .disclaimer-box {
-            background-color: rgba(245, 158, 11, 0.15);
-            color: #fcd34d;
-        }
+    /* Minimal Formula Highlight Box */
+    .min-formula-box {
+        background-color: #0f766e;
+        color: #ffffff;
+        padding: 1rem;
+        border-radius: 8px;
+        font-size: 1.4rem;
+        font-weight: 700;
+        text-align: center;
+        letter-spacing: 0.5px;
+        margin-top: 0.4rem;
+    }
+
+    /* Minimal Disclaimer Box */
+    .min-disclaimer {
+        font-size: 0.78rem;
+        color: #64748b;
+        border-top: 1px solid #e2e8f0;
+        padding-top: 1rem;
+        margin-top: 1.5rem;
+        text-align: justify;
+        line-height: 1.4;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# 3. Header UI
+# 3. Minimal Mobile App Header
 st.markdown("""
-<div class="hero-container">
-    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap:1rem;">
-        <div>
-            <h1 class="hero-title">🩺 MDR4T <span style="font-size:1.2rem; font-weight:400; color:#38bdf8;">| MDR-TB Guide for Thai</span></h1>
-            <p class="hero-subtitle">โปรแกรมช่วยเลือกสูตรการรักษาวัณโรคปอดดื้อยา (Drug-Resistant Pulmonary TB Regimen Selector)</p>
-        </div>
-        <div>
-            <span class="badge-year">WHO Handbook 2025 Standard</span>
-        </div>
-    </div>
+<div class="mobile-header">
+    <h1>MDR4T</h1>
+    <p>โปรแกรมช่วยเลือกสูตรการรักษาวัณโรคปอดดื้อยา</p>
 </div>
 """, unsafe_allow_html=True)
 
-# 4. Logic Functions
+# 4. Logic Functions (Identical logic)
 def calculate_resistance_pattern(H, R, Q, A):
     if H and not R:
-        return "Rifampicin-susceptible, INH-resistant (Hr-TB)", "badge-hr"
+        return "Rifampicin-susceptible, INH-resistant (Hr-TB)"
     elif not H and R:
         if Q == "not resist":
-            return "RR-TB", "badge-rr"
+            return "RR-TB"
         elif Q == "not known":
-            return "RR-TB, FQ susceptibility pending", "badge-rr"
+            return "RR-TB, FQ susceptibility pending"
         elif Q == "resist":
-            if not A:
-                return "Pre-XDR-TB", "badge-prexdr"
-            else:
-                return "XDR-TB", "badge-xdr"
+            return "XDR-TB" if A else "Pre-XDR-TB"
     elif H and R:
         if Q == "not resist":
-            return "MDR-TB", "badge-mdr"
+            return "MDR-TB"
         elif Q == "not known":
-            return "MDR-TB, FQ susceptibility pending", "badge-mdr"
+            return "MDR-TB, FQ susceptibility pending"
         elif Q == "resist":
-            if not A:
-                return "Pre-XDR-TB", "badge-prexdr"
-            else:
-                return "XDR-TB", "badge-xdr"
+            return "XDR-TB" if A else "Pre-XDR-TB"
     elif R and Q == "resist":
-        if not A:
-            return "Pre-XDR-TB", "badge-prexdr"
-        else:
-            return "XDR-TB", "badge-xdr"
+        return "XDR-TB" if A else "Pre-XDR-TB"
     else:
-        return "ไม่พบรูปแบบดื้อยาเฉพาะ (Drug Susceptible / Pending)", "badge-none"
+        return "ไม่พบรูปแบบดื้อยาเฉพาะ (Susceptible / Pending)"
 
 def calculate_recommended_formula(H, R, Q, A, kid, pregnant):
-    # INH Resistance alone
     if H and not R:
         if Q in ["not resist", "not known"]:
-            return "6REZLfx หรือ 6(H)REZLfx (กรณีเป็นยาผสม)"
+            return "6REZLfx หรือ 6(H)REZLfx"
         elif Q == "resist":
-            return "6REZ หรือ 6(H)REZ (กรณีเป็นยาผสม)"
-    
-    # MDR/RR
+            return "6REZ หรือ 6(H)REZ"
     elif R:
         if Q == "resist":
             if A:
                 return "Longer 18-m regimen"
             else:
-                if kid or pregnant:
-                    return "6BDLC"
-                else:
-                    return "6BPAL"
-        else:  # Q in ["not resist", "not known"]
-            if kid or pregnant:
-                return "6BDLLfx"
-            else:
-                return "6BPaLM"
+                return "6BDLC" if (kid or pregnant) else "6BPAL"
+        else:
+            return "6BDLLfx" if (kid or pregnant) else "6BPaLM"
                 
-    return "โปรดระบุการดื้อยา H หรือ R เพื่อประเมินสูตรยา"
+    return "โปรดระบุข้อมูลการดื้อยา"
 
-# 5. Main Layout Columns
-col_inputs, col_results = st.columns([1, 1.1], gap="large")
-
-with col_inputs:
-    st.markdown("### 🧪 1. ประวัติการดื้อยา (Drug Resistance Profile)")
-    
+# 5. Mobile App Form Inputs (Minimal Stack)
+with st.container():
+    st.markdown('<div class="section-title">1. ประวัติการดื้อยา</div>', unsafe_allow_html=True)
     with st.container(border=True):
-        st.markdown("**ผลความไวต่อยาต้านวัณโรค (Drug Susceptibility Testing):**")
-        
+        st.caption("ผลความไวต่อยา (DST)")
         c1, c2 = st.columns(2)
         with c1:
-            h_resist = st.checkbox("Isoniazid (H)", value=False, help="ดื้อยา Isoniazid")
+            h_resist = st.checkbox("Isoniazid (H)", value=False)
         with c2:
-            r_resist = st.checkbox("Rifampicin (R)", value=False, help="ดื้อยา Rifampicin")
+            r_resist = st.checkbox("Rifampicin (R)", value=False)
         
         st.markdown("---")
-        st.markdown("**Fluoroquinolone (FQ):**")
+        st.caption("Fluoroquinolone (FQ)")
         fq_status = st.radio(
-            "สถานะความไวต่อยา FQ",
+            "FQ Status",
             options=["not known", "not resist", "resist"],
             format_func=lambda x: {
-                "not known": "❓ ไม่ทราบผล / รอผล (Not known)",
-                "not resist": "✅ ไม่ดื้อยา (Not resist / Susceptible)",
-                "resist": "⚠️ ดื้อยา (Resist)"
+                "not known": "ไม่ทราบผล / รอผล",
+                "not resist": "ไม่ดื้อยา",
+                "resist": "ดื้อยา"
             }[x],
             index=0,
             label_visibility="collapsed"
@@ -257,207 +220,105 @@ with col_inputs:
         group_a_resist = False
         if fq_status == "resist":
             st.markdown("---")
-            st.warning("⚠️ กรณีดื้อยา Fluoroquinolone (FQ)")
-            group_a_resist = st.checkbox(
-                "ดื้อยา Group A เพิ่มเติม (Bedaquiline หรือ Linezolid)",
-                value=False,
-                help="เลือกหากพบการดื้อยา Bedaquiline หรือ Linezolid ร่วมด้วย"
-            )
+            group_a_resist = st.checkbox("ดื้อยา Group A (Bedaquiline / Linezolid)", value=False)
 
-    st.markdown("### 👤 2. ลักษณะผู้ป่วย (Patient Characteristics)")
+with st.container():
+    st.markdown('<div class="section-title">2. ลักษณะผู้ป่วย</div>', unsafe_allow_html=True)
     with st.container(border=True):
-        is_kid = st.checkbox("👶 อายุน้อยกว่า 14 ปี (< 14 years old)", value=False)
-        is_pregnant = st.checkbox("🤰 ตั้งครรภ์ หรือ ให้นมบุตร (Pregnant / Lactating)", value=False)
+        is_kid = st.checkbox("อายุน้อยกว่า 14 ปี", value=False)
+        is_pregnant = st.checkbox("ตั้งครรภ์ หรือ ให้นมบุตร", value=False)
 
-# Perform Calculations
-pattern_text, pattern_badge_class = calculate_resistance_pattern(h_resist, r_resist, fq_status, group_a_resist)
+# Calculations
+pattern_text = calculate_resistance_pattern(h_resist, r_resist, fq_status, group_a_resist)
 recommended_formula = calculate_recommended_formula(h_resist, r_resist, fq_status, group_a_resist, is_kid, is_pregnant)
 
-# 6. Results Column
-with col_results:
-    st.markdown("### 📊 3. ผลการวิเคราะห์และสูตรยาแนะนำ")
+# 6. Minimal Results Section
+st.markdown('<div class="section-title">3. ผลการวิเคราะห์</div>', unsafe_allow_html=True)
+
+st.markdown(f"""
+<div class="min-card">
+    <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 0.3rem;">รูปแบบการดื้อยา</div>
+    <div class="min-badge">{pattern_text}</div>
+    <div style="font-size: 0.8rem; color: #64748b; margin-top: 0.8rem; margin-bottom: 0.2rem;">สูตรยาที่แนะนำ</div>
+    <div class="min-formula-box">{recommended_formula}</div>
+</div>
+""", unsafe_allow_html=True)
+
+# 7. Regimen Details & Clinical Note (Minimal Expanders)
+with st.expander("รายละเอียดส่วนประกอบสูตรยา"):
+    if "6BPaLM" in recommended_formula:
+        st.markdown("**6BPaLM**: Bedaquiline + Pretomanid + Linezolid + Moxifloxacin (6 เดือน)")
+    elif "6BPAL" in recommended_formula:
+        st.markdown("**6BPAL**: Bedaquiline + Pretomanid + Linezolid (6 เดือน)")
+    elif "6BDLLfx" in recommended_formula:
+        st.markdown("**6BDLLfx**: Bedaquiline + Delamanid + Linezolid + Levofloxacin (6 เดือน)")
+    elif "6BDLC" in recommended_formula:
+        st.markdown("**6BDLC**: Bedaquiline + Delamanid + Linezolid + Clofazimine (6 เดือน)")
+    elif "6REZ" in recommended_formula:
+        st.markdown("**6REZ / 6REZLfx**: Rifampicin + Ethambutol + Pyrazinamide ± Levofloxacin")
+    elif "Longer" in recommended_formula:
+        st.markdown("**Longer 18-m regimen**: สูตรยารักษาระยะยาว (18 เดือนขึ้นไป)")
+    else:
+        st.write("เลือกข้อมูลการดื้อยาเพื่อดูรายละเอียด")
+
+with st.expander("ข้อความสรุปสำหรับบันทึกเวชระเบียน"):
+    fq_th = {"not known": "ไม่ทราบผล", "not resist": "ไม่ดื้อยา", "resist": "ดื้อยา"}[fq_status]
+    summary_text = (
+        f"MDR4T Summary:\n"
+        f"• DST: H={h_resist}, R={r_resist}, FQ={fq_th}"
+        + (f", Group A={group_a_resist}" if fq_status == "resist" else "") + "\n"
+        f"• Patient: Age<14={is_kid}, Pregnant/Lactating={is_pregnant}\n"
+        f"• Pattern: {pattern_text}\n"
+        f"• Regimen: {recommended_formula}\n"
+        f"Ref: WHO TB Handbook 2025"
+    )
+    st.code(summary_text, language="text")
+
+# 8. Reference Dosing & Drug Groups (Minimal Segmented Control)
+st.markdown('<div class="section-title">4. ข้อมูลยาอ้างอิง</div>', unsafe_allow_html=True)
+
+view_dose = st.checkbox("แสดงขนาดยาและกลุ่มยาอ้างอิง", value=False)
+
+if view_dose:
+    tab_dose, tab_9m, tab_longer = st.tabs(["ขนาดยา", "9-Month", "Longer"])
     
-    # Pattern Card
-    st.markdown(f"""
-    <div class="result-card">
-        <div style="font-size: 0.88rem; color: #64748b; font-weight:600; text-transform: uppercase; margin-bottom:0.5rem;">
-            🧬 รูปแบบการดื้อยา (Drug Resistance Pattern)
-        </div>
-        <div class="pattern-badge {pattern_badge_class}">
-            {pattern_text}
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Formula Card
-    st.markdown(f"""
-    <div class="result-card" style="border-top: 4px solid #0d9488;">
-        <div style="font-size: 0.88rem; color: #64748b; font-weight:600; text-transform: uppercase; margin-bottom:0.5rem;">
-            💊 สูตรยาที่แนะนำ (Recommended Regimen)
-        </div>
-        <div class="formula-box">
-            {recommended_formula}
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Formula Breakdown details
-    with st.expander("🔍 คำอธิบายรหัสสูตรยาและส่วนประกอบ (Regimen Breakdown)", expanded=True):
-        if "6BPaLM" in recommended_formula:
-            st.markdown("""
-            **6BPaLM**: สูตรระยะสั้น 6 เดือน ประกอบด้วย
-            - **B**edaquiline + **Pa**retomanid + **L**inezolid + **M**oxifloxacin
-            - *เป็นสูตรหลักที่แนะนำสำหรับผู้ใหญ่ที่ไม่ดื้อ FQ และไม่ตั้งครรภ์*
-            """)
-        elif "6BPAL" in recommended_formula:
-            st.markdown("""
-            **6BPAL**: สูตรระยะสั้น 6 เดือน สำหรับ Pre-XDR TB ประกอบด้วย
-            - **B**edaquiline + **Pa**retomanid + **L**inezolid
-            """)
-        elif "6BDLLfx" in recommended_formula:
-            st.markdown("""
-            **6BDLLfx**: สูตรสำหรับเด็ก (<14 ปี) หรือ สตรีตั้งครรภ์/ให้นมบุตร ประกอบด้วย
-            - **B**edaquiline + **D**elamanid + **L**inezolid + **Lfx** (Levofloxacin)
-            """)
-        elif "6BDLC" in recommended_formula:
-            st.markdown("""
-            **6BDLC**: สูตรสำหรับเด็ก (<14 ปี) หรือ สตรีตั้งครรภ์/ให้นมบุตร ที่ดื้อ FQ ประกอบด้วย
-            - **B**edaquiline + **D**elamanid + **L**inezolid + **C**lofazimine
-            """)
-        elif "6REZLfx" in recommended_formula or "6REZ" in recommended_formula:
-            st.markdown("""
-            **6REZLfx / 6REZ**: สูตรสำหรับ Hr-TB (ดื้อเฉพาะ INH)
-            - R: Rifampicin, E: Ethambutol, Z: Pyrazinamide, Lfx: Levofloxacin
-            """)
-        elif "Longer" in recommended_formula:
-            st.markdown("""
-            **Longer 18-m regimen**: สูตรยารักษาระยะยาว (18 เดือนขึ้นไป)
-            - ออกแบบสูตรยาเฉพาะรายบุคคล โดยเลือกยากลุ่ม A (3 ตัว) + กลุ่ม B (1-2 ตัว) + กลุ่ม C ตามข้อบ่งชี้
-            """)
-        else:
-            st.info("ระบุข้อมูลการดื้อยาด้านซ้าย เพื่อดูคำอธิบายรายละเอียดสูตรยา")
-
-    # Clinical Note Copy Generator
-    with st.expander("📋 สรุปผลสำหรับการบันทึกเวชระเบียน (Clinical Note Summary)"):
-        fq_th = {"not known": "ไม่ทราบผล/รอผล", "not resist": "ไม่ดื้อยา", "resist": "ดื้อยา"}[fq_status]
-        summary_text = (
-            f"MDR4T Clinical Decision Support Summary\n"
-            f"----------------------------------------\n"
-            f"• Resistance DST: H={h_resist}, R={r_resist}, FQ={fq_th}"
-            + (f", Group A Resist={group_a_resist}" if fq_status == "resist" else "") + "\n"
-            f"• Patient Profile: Child (<14y)={is_kid}, Pregnant/Lactating={is_pregnant}\n"
-            f"• Resistance Pattern: {pattern_text}\n"
-            f"• Recommended Regimen: {recommended_formula}\n"
-            f"----------------------------------------\n"
-            f"Ref: WHO Operational Handbook on TB (Module 4, 2025)"
-        )
-        st.code(summary_text, language="text")
-
-st.markdown("---")
-
-# 7. Interactive Dose & Drug Reference Section
-st.markdown("### 📚 ข้อมูลขนาดยา และกลุ่มยาอ้างอิง")
-
-# Control option to toggle reference details
-see_details = st.radio(
-    "แสดงข้อมูลขนาดยาและกลุ่มยาอ้างอิง (View Dosing & Drug Groups)",
-    options=["แสดง (Yes)", "ซ่อน (No)"],
-    horizontal=True,
-    index=0
-)
-
-if see_details == "แสดง (Yes)":
-    tab_dose, tab_9m, tab_longer = st.tabs([
-        "💊 ขนาดยาผู้ใหญ่ (Adult Dosages)", 
-        "⏱️ กลุ่มยาสำหรับ 9-Month Regimens", 
-        "🧬 กลุ่มยาสำหรับ Longer Regimens"
-    ])
-
     with tab_dose:
-        st.markdown("#### ขนาดยาสำหรับผู้ใหญ่ (Adult Dosing)")
-        dosages = [
-            {"code": "B", "name": "Bedaquiline", "strength": "100 mg", "dose": "400 mg/day เป็นเวลา 2 สัปดาห์ จากนั้น 200 mg/day สัปดาห์ละ 3 ครั้ง (หรือ 200 mg/day 8 สัปดาห์ จากนั้น 100 mg/day)"},
-            {"code": "Pa", "name": "Pretomanid", "strength": "200 mg", "dose": "200 mg/day"},
-            {"code": "L", "name": "Linezolid", "strength": "600 mg", "dose": "600 mg/day (สามารถลดขนาดเหลือ 300 mg/day ตามความทนต่อยาของผู้ป่วย)"},
-            {"code": "M", "name": "Moxifloxacin", "strength": "400 mg", "dose": "400 mg/day"},
-            {"code": "Lfx", "name": "Levofloxacin", "strength": "750 mg", "dose": "750 - 1,000 mg/day"},
-            {"code": "C", "name": "Clofazimine", "strength": "100 mg", "dose": "100 mg/day"},
-            {"code": "E", "name": "Ethambutol", "strength": "400 mg", "dose": "1,200 - 1,600 mg/day"},
-            {"code": "D", "name": "Delamanid", "strength": "50 mg", "dose": "1 เม็ด BD (น้ำหนัก < 46 kg) / 2 เม็ด BD (น้ำหนัก > 46 kg)"},
-            {"code": "Z", "name": "Pyrazinamide", "strength": "500 mg", "dose": "1,500 - 2,000 mg/day"},
-            {"code": "Eto/Pto", "name": "Ethionamide / Protionamide", "strength": "250 mg", "dose": "750 mg/day (น้ำหนัก < 70 kg) / 1,000 mg/day (น้ำหนัก > 70 kg)"}
-        ]
+        st.markdown("""
+        **ขนาดยาผู้ใหญ่:**
+        - **B** (Bedaquiline 100mg): 400 mg/d x 2 wk จากนั้น 200 mg/d (3 ครั้ง/wk)
+        - **Pa** (Pretomanid 200mg): 200 mg/d
+        - **L** (Linezolid 600mg): 600 mg/d (ลดเป็น 300 mg/d ได้ตามความทนยา)
+        - **M** (Moxifloxacin 400mg): 400 mg/d
+        - **Lfx** (Levofloxacin 750mg): 750-1,000 mg/d
+        - **C** (Clofazimine 100mg): 100 mg/d
+        - **E** (Ethambutol 400mg): 1,200-1,600 mg/d
+        - **D** (Delamanid 50mg): <46kg 1 tab BD / >46kg 2 tab BD
+        - **Z** (Pyrazinamide 500mg): 1,500-2,000 mg/d
+        - **Eto/Pto** (250mg): <70kg 750mg / >70kg 1,000mg
+        """)
         
-        for item in dosages:
-            col_code, col_detail = st.columns([1.2, 3.8])
-            with col_code:
-                st.markdown(f"<span class='drug-chip'>{item['code']}</span> <strong>{item['name']}</strong> ({item['strength']})", unsafe_allow_html=True)
-            with col_detail:
-                st.markdown(f"👉 {item['dose']}")
-
     with tab_9m:
-        st.markdown("#### กลุ่มยาสำหรับ 9-Month Regimens")
-        st.caption("ใช้เป็นทางเลือกในกรณีที่ไม่ดื้อต่อยา Quinolones (Fluoroquinolones)")
+        st.markdown("""
+        **ทางเลือกกรณีไม่ดื้อ Quinolones:**
+        1. BLMZ
+        2. BLLfxCZ
+        3. BDLLfxZ
+        4. DCLLfxZ
+        5. DCMZ
+        """)
         
-        regimens_9m = ["BLMZ", "BLLfxCZ", "BDLLfxZ", "DCLLfxZ", "DCMZ"]
-        cols = st.columns(5)
-        for i, reg in enumerate(regimens_9m):
-            with cols[i]:
-                st.markdown(f"""
-                <div style="background: #f8fafc; border:1px solid #cbd5e1; border-radius:10px; padding:1rem 0.5rem; text-align:center; margin-bottom:0.8rem; font-weight:700; color:#0f766e; font-size:1.15rem;">
-                    🧪 {reg}
-                </div>
-                """, unsafe_allow_html=True)
-
     with tab_longer:
-        st.markdown("#### กลุ่มยาสำหรับ Longer Regimens (18-20 เดือน)")
-        
-        c_ga, c_gb, c_gc = st.columns(3)
-        
-        with c_ga:
-            st.markdown("""
-            <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:1rem; height:100%;">
-                <h5 style="color:#1d4ed8; margin-top:0;">Group A (เลือก 3 ขนาน)</h5>
-                <ul style="padding-left:1.2rem; font-size:0.9rem;">
-                    <li><strong>Lfx</strong>: Levofloxacin / <strong>M</strong>: Moxifloxacin</li>
-                    <li><strong>B</strong>: Bedaquiline</li>
-                    <li><strong>L</strong>: Linezolid</li>
-                </ul>
-            </div>
-            """, unsafe_allow_html=True)
-            
-        with c_gb:
-            st.markdown("""
-            <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:1rem; height:100%;">
-                <h5 style="color:#15803d; margin-top:0;">Group B (เลือกเพิ่ม 1-2 ขนาน)</h5>
-                <ul style="padding-left:1.2rem; font-size:0.9rem;">
-                    <li><strong>C</strong>: Clofazimine</li>
-                    <li><strong>Cs/Trd</strong>: Cycloserine / Terizidone</li>
-                </ul>
-            </div>
-            """, unsafe_allow_html=True)
-            
-        with c_gc:
-            st.markdown("""
-            <div style="background:#fefce8; border:1px solid #fef08a; border-radius:10px; padding:1rem; height:100%;">
-                <h5 style="color:#a16207; margin-top:0;">Group C (เลือกเพิ่มให้ครบ หรือ เมื่อไม่สามารถใช้กลุ่ม A, B)</h5>
-                <ul style="padding-left:1.2rem; font-size:0.85rem;">
-                    <li><strong>E</strong>: Ethambutol, <strong>D</strong>: Delamanid, <strong>Z</strong>: Pyrazinamide</li>
-                    <li><strong>Ipm-Cln</strong>: Imipenem-cilastatin / <strong>Mpm</strong>: Meropenem</li>
-                    <li><strong>Am</strong>: Amikacin</li>
-                    <li><strong>Pto/Eto</strong>: Protionamide / Ethionamide</li>
-                    <li><strong>PAS</strong>: p-aminosalicylic acid</li>
-                </ul>
-            </div>
-            """, unsafe_allow_html=True)
+        st.markdown("""
+        **สูตร 18 เดือนขึ้นไป:**
+        - **Group A (เลือก 3):** Lfx/M, B, L
+        - **Group B (เลือก 1-2):** C, Cs/Trd
+        - **Group C (เลือกเพิ่มให้ครบ):** E, D, Z, Ipm-Cln/Mpm, Am, Pto/Eto, PAS
+        """)
 
-# 8. Footer & Medical Disclaimer
+# 9. Minimal Disclaimer Footer
 st.markdown("""
-<div class="disclaimer-box">
-    <strong>⚠️ คำเตือน:</strong> เหมาะสำหรับผู้ประกอบวิชาชีพเวชกรรมเท่านั้น ผู้พัฒนาขอสงวนสิทธิ์ที่จะไม่รับผิดชอบต่อความเสียหายที่เกิดขึ้นจากการใช้โปรแกรมนี้
-    <br><br>
-    📖 <strong>แหล่งข้อมูล:</strong> WHO Operational Handbook on Tuberculosis: Module 4: Treatment and Care (2025)
-    <br>
-    📅 <strong>เวอร์ชัน:</strong> มิถุนายน 2026 (June 2026)
+<div class="min-disclaimer">
+    คำเตือน: เหมาะสำหรับผู้ประกอบวิชาชีพเวชกรรมเท่านั้น ผู้พัฒนาขอสงวนสิทธิ์ที่จะไม่รับผิดชอบต่อความเสียหายที่เกิดขึ้นจากการใช้โปรแกรมนี้<br>
+    แหล่งข้อมูล: WHO Operational Handbook on Tuberculosis (Module 4, 2025) | มิถุนายน 2026
 </div>
 """, unsafe_allow_html=True)
