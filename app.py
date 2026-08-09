@@ -3,68 +3,72 @@ import streamlit as st
 # 1. Page Configuration - Centered Mobile App Layout
 st.set_page_config(
     page_title="MDR4T - MDR-TB Guide for Thai",
-    page_icon=None,
+    page_icon="💊",
     layout="centered",
     initial_sidebar_state="collapsed"
 )
 
-# 2. Minimalist Mobile UI Styling (Strict 3-Color Palette)
-# Color 1: #1E293B (Dark Slate - Text & Primary Headers)
+# 2. Modern Minimalist Mobile Styling (Clean 3-Color Palette & Modern Typography)
+# Color 1: #0F172A / #1E293B (Dark Slate - Primary Text & Titles)
 # Color 2: #0F766E (Teal - Primary Accent & Recommendation Highlight)
-# Color 3: #F8FAFC (Light Neutral - Backgrounds & Card Container Base)
+# Color 3: #F8FAFC (Light Neutral - App Background)
 
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap');
     
     html, body, [class*="css"] {
-        font-family: 'Prompt', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-family: 'Plus Jakarta Sans', 'Prompt', -apple-system, BlinkMacSystemFont, sans-serif;
         background-color: #f8fafc;
-        color: #1e293b;
+        color: #0f172a;
     }
     
-    /* Hide Streamlit Header & Footer elements for clean mobile app look */
+    /* Hide Streamlit Chrome Elements */
     #MainMenu {visibility: hidden;}
     header {visibility: hidden;}
     footer {visibility: hidden;}
     
-    /* Mobile Outer Shell Container */
     .stAppViewContainer {
         background-color: #f8fafc;
     }
 
+    /* Reduce Top Spacing for Mobile Screen */
     .main .block-container {
         max-width: 520px;
-        padding-top: 1rem;
-        padding-bottom: 2rem;
-        padding-left: 1rem;
-        padding-right: 1rem;
+        padding-top: 0.3rem !important;
+        padding-bottom: 1.5rem !important;
+        padding-left: 0.8rem !important;
+        padding-right: 0.8rem !important;
         margin: 0 auto;
     }
     
-    /* Minimal App Header */
+    /* Modern Compact Mobile Header */
     .mobile-header {
         text-align: center;
-        padding: 1.2rem 1rem 0.8rem 1rem;
+        padding: 0.9rem 1rem 0.7rem 1rem;
         background-color: #ffffff;
         border: 1px solid #e2e8f0;
         border-radius: 12px;
-        margin-bottom: 1rem;
+        margin-bottom: 0.8rem;
     }
     
     .mobile-header h1 {
-        font-size: 1.6rem;
-        font-weight: 700;
-        color: #1e293b;
+        font-size: 1.65rem;
+        font-weight: 800;
+        color: #0f172a;
         margin: 0;
         letter-spacing: -0.5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
     }
 
     .mobile-header p {
         font-size: 0.85rem;
         color: #0f766e;
         font-weight: 500;
-        margin-top: 0.2rem;
+        margin-top: 0.15rem;
         margin-bottom: 0;
     }
 
@@ -73,7 +77,7 @@ st.markdown("""
         background: #ffffff;
         border: 1px solid #e2e8f0;
         border-radius: 12px;
-        padding: 1rem 1.2rem;
+        padding: 0.9rem 1.1rem;
         margin-bottom: 0.8rem;
     }
 
@@ -92,12 +96,12 @@ st.markdown("""
     }
 
     .section-title {
-        font-size: 0.95rem;
-        font-weight: 600;
-        color: #1e293b;
+        font-size: 0.92rem;
+        font-weight: 700;
+        color: #0f172a;
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        margin-bottom: 0.6rem;
+        margin-bottom: 0.5rem;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -106,53 +110,50 @@ st.markdown("""
         }
     }
 
-    /* Minimal Pattern Badge */
     .min-badge {
         display: inline-block;
-        padding: 0.4rem 0.8rem;
+        padding: 0.35rem 0.8rem;
         border-radius: 6px;
         font-weight: 600;
         font-size: 0.95rem;
         background-color: #f1f5f9;
-        color: #1e293b;
+        color: #0f172a;
         border: 1px solid #cbd5e1;
     }
 
-    /* Minimal Formula Highlight Box */
     .min-formula-box {
         background-color: #0f766e;
         color: #ffffff;
-        padding: 1rem;
+        padding: 0.9rem;
         border-radius: 8px;
-        font-size: 1.4rem;
+        font-size: 1.35rem;
         font-weight: 700;
         text-align: center;
         letter-spacing: 0.5px;
         margin-top: 0.4rem;
     }
 
-    /* Minimal Disclaimer Box */
     .min-disclaimer {
         font-size: 0.78rem;
         color: #64748b;
         border-top: 1px solid #e2e8f0;
-        padding-top: 1rem;
-        margin-top: 1.5rem;
+        padding-top: 0.8rem;
+        margin-top: 1.2rem;
         text-align: justify;
         line-height: 1.4;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# 3. Minimal Mobile App Header
+# 3. Minimal Mobile Header with Pill Icon 💊
 st.markdown("""
 <div class="mobile-header">
-    <h1>MDR4T</h1>
+    <h1>💊 MDR4T</h1>
     <p>โปรแกรมช่วยเลือกสูตรการรักษาวัณโรคปอดดื้อยา</p>
 </div>
 """, unsafe_allow_html=True)
 
-# 4. Logic Functions (Identical logic)
+# 4. Logic Functions
 def calculate_resistance_pattern(H, R, Q, A):
     if H and not R:
         return "Rifampicin-susceptible, INH-resistant (Hr-TB)"
@@ -192,7 +193,7 @@ def calculate_recommended_formula(H, R, Q, A, kid, pregnant):
                 
     return "โปรดระบุข้อมูลการดื้อยา"
 
-# 5. Mobile App Form Inputs (Minimal Stack)
+# 5. Form Inputs
 with st.container():
     st.markdown('<div class="section-title">1. ประวัติการดื้อยา</div>', unsafe_allow_html=True)
     with st.container(border=True):
@@ -244,7 +245,7 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# 7. Regimen Details & Clinical Note (Minimal Expanders)
+# 7. Regimen Details Expander
 with st.expander("รายละเอียดส่วนประกอบสูตรยา"):
     if "6BPaLM" in recommended_formula:
         st.markdown("**6BPaLM**: Bedaquiline + Pretomanid + Linezolid + Moxifloxacin (6 เดือน)")
@@ -261,20 +262,7 @@ with st.expander("รายละเอียดส่วนประกอบ�
     else:
         st.write("เลือกข้อมูลการดื้อยาเพื่อดูรายละเอียด")
 
-with st.expander("ข้อความสรุปสำหรับบันทึกเวชระเบียน"):
-    fq_th = {"not known": "ไม่ทราบผล", "not resist": "ไม่ดื้อยา", "resist": "ดื้อยา"}[fq_status]
-    summary_text = (
-        f"MDR4T Summary:\n"
-        f"• DST: H={h_resist}, R={r_resist}, FQ={fq_th}"
-        + (f", Group A={group_a_resist}" if fq_status == "resist" else "") + "\n"
-        f"• Patient: Age<14={is_kid}, Pregnant/Lactating={is_pregnant}\n"
-        f"• Pattern: {pattern_text}\n"
-        f"• Regimen: {recommended_formula}\n"
-        f"Ref: WHO TB Handbook 2025"
-    )
-    st.code(summary_text, language="text")
-
-# 8. Reference Dosing & Drug Groups (Minimal Segmented Control)
+# 8. Reference Dosing & Drug Groups
 st.markdown('<div class="section-title">4. ข้อมูลยาอ้างอิง</div>', unsafe_allow_html=True)
 
 view_dose = st.checkbox("แสดงขนาดยาและกลุ่มยาอ้างอิง", value=False)
@@ -319,6 +307,6 @@ if view_dose:
 st.markdown("""
 <div class="min-disclaimer">
     คำเตือน: เหมาะสำหรับผู้ประกอบวิชาชีพเวชกรรมเท่านั้น ผู้พัฒนาขอสงวนสิทธิ์ที่จะไม่รับผิดชอบต่อความเสียหายที่เกิดขึ้นจากการใช้โปรแกรมนี้<br>
-    แหล่งข้อมูล: WHO Operational Handbook on Tuberculosis (Module 4, 2025) | มิถุนายน 2026
+    แหล่งข้อมูล: WHO Operational Handbook on Tuberculosis (Module 4, 2025)
 </div>
 """, unsafe_allow_html=True)
