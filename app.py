@@ -8,10 +8,11 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# 2. Modern Minimalist Mobile Styling (Clean 3-Color Palette & Modern Typography)
-# Color 1: #0F172A / #1E293B (Dark Slate - Primary Text & Titles)
-# Color 2: #0F766E (Teal - Primary Accent & Recommendation Highlight)
-# Color 3: #F8FAFC (Light Neutral - App Background)
+# 2. Sleek Dark Minimalist Styling (Default Dark Theme Palette)
+# Dark Base: #0F172A (Deep Slate Navy)
+# Card Base: #1E293B (Dark Container)
+# Accent Teal: #0F766E / #2DD4BF (Primary Highlight)
+# Text Primary: #F8FAFC / Text Muted: #94A3B8
 
 st.markdown("""
 <style>
@@ -19,8 +20,8 @@ st.markdown("""
     
     html, body, [class*="css"] {
         font-family: 'Plus Jakarta Sans', 'Prompt', -apple-system, BlinkMacSystemFont, sans-serif;
-        background-color: #f8fafc;
-        color: #0f172a;
+        background-color: #0f172a !important;
+        color: #f8fafc !important;
     }
     
     /* Hide Streamlit Chrome Elements */
@@ -28,8 +29,8 @@ st.markdown("""
     header {visibility: hidden;}
     footer {visibility: hidden;}
     
-    .stAppViewContainer {
-        background-color: #f8fafc;
+    .stApp, .stAppViewContainer {
+        background-color: #0f172a !important;
     }
 
     /* Reduce Top Spacing for Mobile Screen */
@@ -42,12 +43,12 @@ st.markdown("""
         margin: 0 auto;
     }
     
-    /* Modern Compact Mobile Header */
+    /* Modern Compact Dark Mobile Header */
     .mobile-header {
         text-align: center;
         padding: 0.9rem 1rem 0.7rem 1rem;
-        background-color: #ffffff;
-        border: 1px solid #e2e8f0;
+        background-color: #1e293b;
+        border: 1px solid #334155;
         border-radius: 12px;
         margin-bottom: 0.8rem;
     }
@@ -55,7 +56,7 @@ st.markdown("""
     .mobile-header h1 {
         font-size: 1.65rem;
         font-weight: 800;
-        color: #0f172a;
+        color: #f8fafc;
         margin: 0;
         letter-spacing: -0.5px;
         display: flex;
@@ -66,48 +67,29 @@ st.markdown("""
 
     .mobile-header p {
         font-size: 0.85rem;
-        color: #0f766e;
+        color: #2dd4bf;
         font-weight: 500;
         margin-top: 0.15rem;
         margin-bottom: 0;
     }
 
-    /* Minimal Card Containers */
+    /* Dark Minimal Card Containers */
     .min-card {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
+        background: #1e293b;
+        border: 1px solid #334155;
         border-radius: 12px;
         padding: 0.9rem 1.1rem;
         margin-bottom: 0.8rem;
-    }
-
-    @media (prefers-color-scheme: dark) {
-        .mobile-header, .min-card {
-            background: #1e293b;
-            border-color: #334155;
-            color: #f8fafc;
-        }
-        .mobile-header h1 {
-            color: #f8fafc;
-        }
-        .mobile-header p {
-            color: #2dd4bf;
-        }
+        color: #f8fafc;
     }
 
     .section-title {
         font-size: 0.92rem;
         font-weight: 700;
-        color: #0f172a;
+        color: #cbd5e1;
         text-transform: uppercase;
         letter-spacing: 0.5px;
         margin-bottom: 0.5rem;
-    }
-
-    @media (prefers-color-scheme: dark) {
-        .section-title {
-            color: #cbd5e1;
-        }
     }
 
     .min-badge {
@@ -116,9 +98,9 @@ st.markdown("""
         border-radius: 6px;
         font-weight: 600;
         font-size: 0.95rem;
-        background-color: #f1f5f9;
-        color: #0f172a;
-        border: 1px solid #cbd5e1;
+        background-color: #334155;
+        color: #f8fafc;
+        border: 1px solid #475569;
     }
 
     .min-formula-box {
@@ -131,12 +113,13 @@ st.markdown("""
         text-align: center;
         letter-spacing: 0.5px;
         margin-top: 0.4rem;
+        box-shadow: 0 4px 12px rgba(15, 118, 110, 0.3);
     }
 
     .min-disclaimer {
         font-size: 0.78rem;
-        color: #64748b;
-        border-top: 1px solid #e2e8f0;
+        color: #94a3b8;
+        border-top: 1px solid #334155;
         padding-top: 0.8rem;
         margin-top: 1.2rem;
         text-align: justify;
@@ -145,7 +128,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 3. Minimal Mobile Header with Pill Icon 💊
+# 3. Minimal Mobile Header with Pill Icon 💊 (Dark Theme)
 st.markdown("""
 <div class="mobile-header">
     <h1>💊 MDR4T</h1>
@@ -238,9 +221,9 @@ st.markdown('<div class="section-title">3. ผลการวิเคราะ�
 
 st.markdown(f"""
 <div class="min-card">
-    <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 0.3rem;">รูปแบบการดื้อยา</div>
+    <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 0.3rem;">รูปแบบการดื้อยา</div>
     <div class="min-badge">{pattern_text}</div>
-    <div style="font-size: 0.8rem; color: #64748b; margin-top: 0.8rem; margin-bottom: 0.2rem;">สูตรยาที่แนะนำ</div>
+    <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.8rem; margin-bottom: 0.2rem;">สูตรยาที่แนะนำ</div>
     <div class="min-formula-box">{recommended_formula}</div>
 </div>
 """, unsafe_allow_html=True)
