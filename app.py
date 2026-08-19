@@ -157,6 +157,15 @@ st.markdown("""
         margin-bottom: 0.8rem;
         font-size: 0.85rem;
     }
+    .min-disclaimer, .min-disclaimer p, .min-disclaimer span {
+        font-size: 0.72rem !important;
+        color: #94a3b8 !important;
+        border-top: 1px solid #334155;
+        padding-top: 0.6rem;
+        margin-top: 1.0rem;
+        text-align: justify;
+        line-height: 1.45;
+    }
 </style>
 """, unsafe_allow_html=True)
 
