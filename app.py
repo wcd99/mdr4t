@@ -16,10 +16,10 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
     
-    html, body, [class*="css"] {
-        font-family: 'Plus Jakarta Sans', 'Prompt', -apple-system, BlinkMacSystemFont, sans-serif;
+    html, body, [class*="css"], .stApp {
+        font-family: 'Plus Jakarta Sans', 'IBM Plex Sans Thai', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
         background-color: #0f172a !important;
         color: #ffffff !important;
     }
@@ -169,15 +169,10 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ----------------------------------------------------
-# กำหนดรหัสลับเฉพาะกลุ่ม (Access Codes & Authorized Groups)
+# กำหนดรหัสลับเฉพาะกลุ่มแพทย์ (Access Code for Physicians)
 # ----------------------------------------------------
-# ท่านสามารถเพิ่ม/แก้ไข/ลบ รหัสผ่านและกลุ่มผู้ใช้งานได้ที่นี่
 ACCESS_CODES = {
-    "MDR4SI": "แพทย์และบุคลากรทางการแพทย์ (Medical Staff)",
-    "SI2025": "กลุ่มโรงพยาบาลศิริราช (Siriraj TB Team)",
-    "TB2025": "ทีมควบคุมวัณโรค (TB Control Unit)",
-    "EXPERT": "ผู้เชี่ยวชาญวัณโรคดื้อยา (TB Specialist)",
-    "DEMO": "ผู้ทดสอบระบบ (Trial / Guest)"
+    "tubercle": "กลุ่มแพทย์ผู้รักษา (Physician / Medical Staff)"
 }
 
 # รองรับการดึงรหัสเพิ่มเติมจาก Streamlit Secrets (.streamlit/secrets.toml) หากมี
